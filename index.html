@@ -335,46 +335,6 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(20px); }
         }
-
-        /* Contrôles */
-        .controls {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            padding: 20px 40px;
-            border-radius: 50px;
-            display: flex;
-            gap: 20px;
-            z-index: 1000;
-        }
-
-        .controls button {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 18px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .controls button:hover {
-            background: #2563eb;
-            transform: scale(1.05);
-        }
-
-        .timer {
-            color: white;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            font-weight: 600;
-        }
     </style>
 </head>
 <body>
@@ -491,31 +451,9 @@
 
     </div>
 
-    <!-- Contrôles de navigation -->
-    <div class="controls">
-        <button onclick="previousScene()">⬅️ Précédent</button>
-        <button onclick="toggleAutoPlay()" id="playBtn">▶️ Auto</button>
-        <div class="timer">Scène <span id="currentScene">1</span>/6 - <span id="timeLeft">8</span>s</div>
-        <button onclick="nextScene()">Suivant ➡️</button>
-        <button onclick="restartVideo()">🔄 Recommencer</button>
-    </div>
-
     <script>
         let currentScene = 1;
         const totalScenes = 6;
-        let autoPlay = false;
-        let countdown;
-        let timeLeft = 8;
-
-        // Durée de chaque scène (en secondes)
-        const sceneDurations = {
-            1: 8,   // Hook
-            2: 10,  // Problème
-            3: 12,  // Solution
-            4: 10,  // Bot Trading
-            5: 12,  // Catégories
-            6: 15   // CTA Final
-        };
 
         function showScene(sceneNumber) {
             // Cacher toutes les scènes
@@ -525,16 +463,6 @@
 
             // Afficher la scène actuelle
             document.getElementById(`scene${sceneNumber}`).classList.add('active');
-            document.getElementById('currentScene').textContent = sceneNumber;
-            
-            // Réinitialiser le timer
-            timeLeft = sceneDurations[sceneNumber];
-            document.getElementById('timeLeft').textContent = timeLeft;
-            
-            // Démarrer le compte à rebours si autoPlay est activé
-            if (autoPlay) {
-                startCountdown();
-            }
         }
 
         function nextScene() {
@@ -554,44 +482,10 @@
             }
         }
 
-        function startCountdown() {
-            clearInterval(countdown);
-            countdown = setInterval(() => {
-                timeLeft--;
-                document.getElementById('timeLeft').textContent = timeLeft;
-                
-                if (timeLeft <= 0) {
-                    nextScene();
-                }
-            }, 1000);
-        }
-
-        function toggleAutoPlay() {
-            autoPlay = !autoPlay;
-            const btn = document.getElementById('playBtn');
-            
-            if (autoPlay) {
-                btn.textContent = '⏸️ Pause';
-                startCountdown();
-            } else {
-                btn.textContent = '▶️ Auto';
-                clearInterval(countdown);
-            }
-        }
-
-        function restartVideo() {
-            currentScene = 1;
-            autoPlay = false;
-            document.getElementById('playBtn').textContent = '▶️ Auto';
-            clearInterval(countdown);
-            showScene(1);
-        }
-
         // Navigation au clavier
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight') nextScene();
             if (e.key === 'ArrowLeft') previousScene();
-            if (e.key === ' ') toggleAutoPlay();
         });
 
         // Initialiser

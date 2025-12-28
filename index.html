@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidéo Promo - Plateforme Revenus Complémentaires</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .video-container {
+            width: 1920px;
+            height: 1080px;
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        /* Scènes de la vidéo */
+        .scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .scene.active {
+            opacity: 1;
+        }
+
+        /* Scène 1 - Hook */
+        #scene1 {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+
+        .hook-amount {
+            font-size: 180px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: slideUp 1s ease-out;
+        }
+
+        .hook-text {
+            font-size: 60px;
+            color: #fff;
+            margin-top: 40px;
+            text-align: center;
+            max-width: 1400px;
+            line-height: 1.3;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Scène 2 - Problème */
+        #scene2 {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+        }
+
+        .problem-title {
+            font-size: 80px;
+            color: #fff;
+            margin-bottom: 60px;
+            font-weight: 700;
+        }
+
+        .problem-list {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .problem-item {
+            font-size: 50px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            animation: slideLeft 0.8s ease-out;
+        }
+
+        /* Scène 3 - Solution */
+        #scene3 {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+
+        .solution-title {
+            font-size: 100px;
+            color: #fff;
+            margin-bottom: 80px;
+            font-weight: 800;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+            max-width: 1400px;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border-radius: 30px;
+            border: 2px solid rgba(255,255,255,0.3);
+            animation: scaleIn 0.6s ease-out;
+        }
+
+        .feature-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 45px;
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .feature-desc {
+            font-size: 32px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Scène 4 - Bot Trading */
+        #scene4 {
+            background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+        }
+
+        .bot-showcase {
+            text-align: center;
+        }
+
+        .bot-icon {
+            font-size: 200px;
+            margin-bottom: 40px;
+            animation: bounce 2s infinite;
+        }
+
+        .bot-title {
+            font-size: 90px;
+            color: #fff;
+            font-weight: 800;
+            margin-bottom: 40px;
+        }
+
+        .bot-features {
+            display: flex;
+            gap: 80px;
+            justify-content: center;
+            margin-top: 60px;
+        }
+
+        .bot-feature {
+            text-align: center;
+        }
+
+        .bot-feature-text {
+            font-size: 40px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Scène 5 - Catégories */
+        #scene5 {
+            background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+        }
+
+        .categories-title {
+            font-size: 80px;
+            color: #fff;
+            margin-bottom: 80px;
+            font-weight: 800;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 50px;
+            max-width: 1600px;
+        }
+
+        .category-box {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 60px 40px;
+            border-radius: 25px;
+            text-align: center;
+            border: 3px solid rgba(255,255,255,0.4);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .category-emoji {
+            font-size: 90px;
+            margin-bottom: 25px;
+        }
+
+        .category-name {
+            font-size: 42px;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        /* Scène 6 - CTA Final */
+        #scene6 {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+
+        .cta-container {
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 100px;
+            color: #fff;
+            font-weight: 900;
+            margin-bottom: 60px;
+            animation: pulse 2s infinite;
+        }
+
+        .cta-url {
+            font-size: 70px;
+            color: #3b82f6;
+            background: rgba(255,255,255,0.95);
+            padding: 40px 80px;
+            border-radius: 25px;
+            font-weight: 700;
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.4);
+            margin-bottom: 60px;
+        }
+
+        .cta-arrow {
+            font-size: 120px;
+            color: #3b82f6;
+            animation: arrowBounce 1.5s infinite;
+        }
+
+        .cta-subtitle {
+            font-size: 50px;
+            color: rgba(255,255,255,0.8);
+            margin-top: 40px;
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideLeft {
+            from {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes arrowBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(20px); }
+        }
+
+        /* Contrôles */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            padding: 20px 40px;
+            border-radius: 50px;
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .controls button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .controls button:hover {
+            background: #2563eb;
+            transform: scale(1.05);
+        }
+
+        .timer {
+            color: white;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        
+        <!-- Scène 1 : HOOK -->
+        <div class="scene active" id="scene1">
+            <div class="hook-amount">€850+</div>
+            <div class="hook-text">
+                La plateforme qui REGROUPE toutes les solutions<br>
+                pour générer des revenus complémentaires
+            </div>
+        </div>
+
+        <!-- Scène 2 : PROBLÈME -->
+        <div class="scene" id="scene2">
+            <div class="problem-title">😤 Vous en avez marre de...</div>
+            <div class="problem-list">
+                <div class="problem-item">❌ Chercher pendant des heures les bons sites</div>
+                <div class="problem-item">❌ Tester des applications qui ne paient pas</div>
+                <div class="problem-item">❌ Perdre du temps avec des arnaques</div>
+            </div>
+        </div>
+
+        <!-- Scène 3 : SOLUTION -->
+        <div class="scene" id="scene3">
+            <div class="solution-title">✅ LA SOLUTION EST ICI</div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">40+ Services</div>
+                    <div class="feature-desc">Tous vérifiés et testés</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <div class="feature-title">Cashback</div>
+                    <div class="feature-desc">12 plateformes premium</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <div class="feature-title">Gaming</div>
+                    <div class="feature-desc">Gagnez en jouant</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏦</div>
+                    <div class="feature-title">Banques</div>
+                    <div class="feature-desc">Primes jusqu'à 150€</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scène 4 : BOT TRADING -->
+        <div class="scene" id="scene4">
+            <div class="bot-showcase">
+                <div class="bot-icon">🤖</div>
+                <div class="bot-title">Bot Trading Crypto Automatisé</div>
+                <div class="bot-features">
+                    <div class="bot-feature">
+                        <div class="feature-icon">⚡</div>
+                        <div class="bot-feature-text">Trading 24/7</div>
+                    </div>
+                    <div class="bot-feature">
+                        <div class="feature-icon">🔒</div>
+                        <div class="bot-feature-text">Sécurité Uphold</div>
+                    </div>
+                    <div class="bot-feature">
+                        <div class="feature-icon">🧠</div>
+                        <div class="bot-feature-text">IA Optimisée</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scène 5 : CATÉGORIES -->
+        <div class="scene" id="scene5">
+            <div class="categories-title">5 Catégories Principales</div>
+            <div class="categories-grid">
+                <div class="category-box">
+                    <div class="category-emoji">🎮</div>
+                    <div class="category-name">Gaming Rémunéré</div>
+                </div>
+                <div class="category-box">
+                    <div class="category-emoji">💳</div>
+                    <div class="category-name">Cashback Intelligent</div>
+                </div>
+                <div class="category-box">
+                    <div class="category-emoji">🏦</div>
+                    <div class="category-name">Banques en Ligne</div>
+                </div>
+                <div class="category-box">
+                    <div class="category-emoji">⚽</div>
+                    <div class="category-name">Paris Sportifs</div>
+                </div>
+                <div class="category-box">
+                    <div class="category-emoji">📊</div>
+                    <div class="category-name">Études Rémunérées</div>
+                </div>
+                <div class="category-box">
+                    <div class="category-emoji">💪</div>
+                    <div class="category-name">Coach Minceur</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scène 6 : CTA FINAL -->
+        <div class="scene" id="scene6">
+            <div class="cta-container">
+                <div class="cta-title">🚀 ACCÉDEZ GRATUITEMENT</div>
+                <div class="cta-url">eco-systeme-jercat-five.vercel.app</div>
+                <div class="cta-arrow">⬇️</div>
+                <div class="cta-subtitle">Lien dans la description</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Contrôles de navigation -->
+    <div class="controls">
+        <button onclick="previousScene()">⬅️ Précédent</button>
+        <button onclick="toggleAutoPlay()" id="playBtn">▶️ Auto</button>
+        <div class="timer">Scène <span id="currentScene">1</span>/6 - <span id="timeLeft">8</span>s</div>
+        <button onclick="nextScene()">Suivant ➡️</button>
+        <button onclick="restartVideo()">🔄 Recommencer</button>
+    </div>
+
+    <script>
+        let currentScene = 1;
+        const totalScenes = 6;
+        let autoPlay = false;
+        let countdown;
+        let timeLeft = 8;
+
+        // Durée de chaque scène (en secondes)
+        const sceneDurations = {
+            1: 8,   // Hook
+            2: 10,  // Problème
+            3: 12,  // Solution
+            4: 10,  // Bot Trading
+            5: 12,  // Catégories
+            6: 15   // CTA Final
+        };
+
+        function showScene(sceneNumber) {
+            // Cacher toutes les scènes
+            document.querySelectorAll('.scene').forEach(scene => {
+                scene.classList.remove('active');
+            });
+
+            // Afficher la scène actuelle
+            document.getElementById(`scene${sceneNumber}`).classList.add('active');
+            document.getElementById('currentScene').textContent = sceneNumber;
+            
+            // Réinitialiser le timer
+            timeLeft = sceneDurations[sceneNumber];
+            document.getElementById('timeLeft').textContent = timeLeft;
+            
+            // Démarrer le compte à rebours si autoPlay est activé
+            if (autoPlay) {
+                startCountdown();
+            }
+        }
+
+        function nextScene() {
+            if (currentScene < totalScenes) {
+                currentScene++;
+                showScene(currentScene);
+            } else {
+                currentScene = 1;
+                showScene(currentScene);
+            }
+        }
+
+        function previousScene() {
+            if (currentScene > 1) {
+                currentScene--;
+                showScene(currentScene);
+            }
+        }
+
+        function startCountdown() {
+            clearInterval(countdown);
+            countdown = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timeLeft').textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    nextScene();
+                }
+            }, 1000);
+        }
+
+        function toggleAutoPlay() {
+            autoPlay = !autoPlay;
+            const btn = document.getElementById('playBtn');
+            
+            if (autoPlay) {
+                btn.textContent = '⏸️ Pause';
+                startCountdown();
+            } else {
+                btn.textContent = '▶️ Auto';
+                clearInterval(countdown);
+            }
+        }
+
+        function restartVideo() {
+            currentScene = 1;
+            autoPlay = false;
+            document.getElementById('playBtn').textContent = '▶️ Auto';
+            clearInterval(countdown);
+            showScene(1);
+        }
+
+        // Navigation au clavier
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextScene();
+            if (e.key === 'ArrowLeft') previousScene();
+            if (e.key === ' ') toggleAutoPlay();
+        });
+
+        // Initialiser
+        showScene(1);
+    </script>
+</body>
+</html>

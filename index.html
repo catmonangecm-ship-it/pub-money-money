@@ -454,6 +454,17 @@
     <script>
         let currentScene = 1;
         const totalScenes = 6;
+        let autoPlayInterval;
+
+        // Durée de chaque scène (en secondes)
+        const sceneDurations = {
+            1: 5,   // Hook
+            2: 8,   // Problème
+            3: 10,  // Solution
+            4: 8,   // Bot Trading
+            5: 10,  // Catégories
+            6: 12   // CTA Final
+        };
 
         function showScene(sceneNumber) {
             // Cacher toutes les scènes
@@ -470,6 +481,7 @@
                 currentScene++;
                 showScene(currentScene);
             } else {
+                // Boucler au début
                 currentScene = 1;
                 showScene(currentScene);
             }
@@ -482,14 +494,34 @@
             }
         }
 
+        function startAutoPlay() {
+            function playNextScene() {
+                const duration = sceneDurations[currentScene] * 1000;
+                autoPlayInterval = setTimeout(() => {
+                    nextScene();
+                    playNextScene();
+                }, duration);
+            }
+            playNextScene();
+        }
+
         // Navigation au clavier
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight') nextScene();
-            if (e.key === 'ArrowLeft') previousScene();
+            if (e.key === 'ArrowRight') {
+                clearTimeout(autoPlayInterval);
+                nextScene();
+                startAutoPlay();
+            }
+            if (e.key === 'ArrowLeft') {
+                clearTimeout(autoPlayInterval);
+                previousScene();
+                startAutoPlay();
+            }
         });
 
-        // Initialiser
+        // Initialiser et démarrer automatiquement
         showScene(1);
+        startAutoPlay();
     </script>
 </body>
 </html>
